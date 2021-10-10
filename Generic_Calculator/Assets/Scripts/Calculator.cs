@@ -45,6 +45,7 @@ public class Calculator : MonoBehaviour
         else
         {
             num2 = float.Parse(textComponent.text) / 100;
+            getPercentage = false;
         }
         
         switch (operationSign)
