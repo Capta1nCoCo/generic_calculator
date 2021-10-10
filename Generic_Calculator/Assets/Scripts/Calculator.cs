@@ -12,6 +12,7 @@ public class Calculator : MonoBehaviour
     [SerializeField] float num2 = 0;
     [SerializeField] char operationSign = 'n';
     [SerializeField] bool isProcessed = false;
+    bool getPercentage = false;
 
     private void Awake()
     {
@@ -29,13 +30,22 @@ public class Calculator : MonoBehaviour
         num1 = 0;
         num2 = 0;
         textComponent.text = num1.ToString();
+        isProcessed = false;
+        getPercentage = false;
         operationSign = 'n';
     }
 
-    //Operations
+    //Basic Operations
     public void ButtonEquals()
     {
-        num2 = float.Parse(textComponent.text);
+        if (!getPercentage)
+        {
+            num2 = float.Parse(textComponent.text);
+        }
+        else
+        {
+            num2 = float.Parse(textComponent.text) / 100;
+        }
         
         switch (operationSign)
         {
@@ -87,8 +97,8 @@ public class Calculator : MonoBehaviour
         }
         else
         {
-            operationSign = '+';
             ButtonEquals();
+            operationSign = '+';            
         }
     }
 
@@ -101,9 +111,9 @@ public class Calculator : MonoBehaviour
             isProcessed = true;
         }
         else
-        {
-            operationSign = '-';
+        {            
             ButtonEquals();
+            operationSign = '-';
         }
     }
 
@@ -116,9 +126,9 @@ public class Calculator : MonoBehaviour
             isProcessed = true;
         }
         else
-        {
-            operationSign = '/';
+        {            
             ButtonEquals();
+            operationSign = '/';
         }
     }
 
@@ -131,8 +141,46 @@ public class Calculator : MonoBehaviour
             isProcessed = true;
         }
         else
-        {
+        {            
+            ButtonEquals();
             operationSign = '*';
+        }
+    }
+
+    //Special Operations
+    public void ButtonX2()
+    {
+        num1 = float.Parse(textComponent.text);
+        num1 *= num1;
+        textComponent.text = num1.ToString();
+        isProcessed = true;
+    }
+
+    public void ButtonSqrt()
+    {
+        num1 = float.Parse(textComponent.text);
+        num1 = Mathf.Sqrt(num1);
+        textComponent.text = num1.ToString();
+        isProcessed = true;
+    }
+
+    public void ButtonReverseNumber()
+    {
+        num1 = float.Parse(textComponent.text);
+        num1 = 1 / num1;
+        textComponent.text = num1.ToString();
+        isProcessed = true;
+    }
+
+    public void ButtonPercentage()
+    {
+        if (num1 == 0)
+        {
+            ButtonC();
+        }
+        else
+        {
+            getPercentage = true;
             ButtonEquals();
         }
     }
@@ -145,6 +193,38 @@ public class Calculator : MonoBehaviour
             textComponent.text += ".";
             isProcessed = false;
         }        
+    }
+
+    public void ButtonPlusMinus()
+    {
+        if (textComponent.text == "0") { return; }
+
+        if (!textComponent.text.Contains("-"))
+        {
+            textComponent.text = "-" + textComponent.text;
+            isProcessed = false;
+        }        
+        else
+        {
+            textComponent.text = textComponent.text.Substring(1);
+            isProcessed = false;
+        }
+    }
+
+    public void ButtonBackspace()
+    {
+        if (textComponent.text == "0") { return; }
+
+        if (textComponent.text.Length > 1)
+        {
+            textComponent.text = textComponent.text.Substring(0, textComponent.text.Length - 1);
+            isProcessed = false;
+        }
+        else
+        {
+            textComponent.text = "0";
+            isProcessed = false;
+        }
     }
 
     // Numbers
