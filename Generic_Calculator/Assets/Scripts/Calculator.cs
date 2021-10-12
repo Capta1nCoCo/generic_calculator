@@ -36,7 +36,7 @@ public class Calculator : MonoBehaviour
     }
 
     //Basic Operations
-    public void ButtonEquals()
+    private void GetSecondNumber()
     {
         if (!getPercentage)
         {
@@ -47,6 +47,11 @@ public class Calculator : MonoBehaviour
             num2 = float.Parse(textComponent.text) / 100;
             getPercentage = false;
         }
+    }
+
+    public void ButtonEquals()
+    {
+        GetSecondNumber();
         
         switch (operationSign)
         {
@@ -87,68 +92,42 @@ public class Calculator : MonoBehaviour
         }
     }
 
-    public void ButtonPlus()
+    private void BasicOperation(char sign)
     {
-        
         if (operationSign == 'n')
         {
             num1 = float.Parse(textComponent.text);
-            operationSign = '+';
+            operationSign = sign;
             isProcessed = true;
         }
         else
         {
             ButtonEquals();
-            operationSign = '+';            
+            operationSign = sign;
         }
+    }
+
+    public void ButtonPlus()
+    {
+        BasicOperation('+');
     }
 
     public void ButtonMinus()
     {
-        if (operationSign == 'n')
-        {
-            num1 = float.Parse(textComponent.text);
-            operationSign = '-';
-            isProcessed = true;
-        }
-        else
-        {            
-            ButtonEquals();
-            operationSign = '-';
-        }
+        BasicOperation('-');        
     }
 
     public void ButtonDivide()
     {
-        if (operationSign == 'n')
-        {
-            num1 = float.Parse(textComponent.text);
-            operationSign = '/';
-            isProcessed = true;
-        }
-        else
-        {            
-            ButtonEquals();
-            operationSign = '/';
-        }
+        BasicOperation('/');        
     }
 
     public void ButtonMultiply()
     {
-        if (operationSign == 'n')
-        {
-            num1 = float.Parse(textComponent.text);
-            operationSign = '*';
-            isProcessed = true;
-        }
-        else
-        {            
-            ButtonEquals();
-            operationSign = '*';
-        }
+        BasicOperation('*');        
     }
 
-    //Special Operations
+    //Special Operations   
     public void ButtonX2()
     {
         num1 = float.Parse(textComponent.text);
@@ -229,143 +208,66 @@ public class Calculator : MonoBehaviour
     }
 
     // Numbers
-    public void Button0()
+    private void PrintNumber(string number)
     {
         if (textComponent.text != "0" && !isProcessed)
         {
-            textComponent.text += "0";
+            textComponent.text += number;
         }
         else
         {
-            textComponent.text = "0";
+            textComponent.text = number;
             isProcessed = false;
         }
+    }
 
+    public void Button0()
+    {
+        PrintNumber("0");
     }
 
     public void Button1()
     {
-        if (textComponent.text != "0" && !isProcessed)
-        {
-            textComponent.text += "1";
-        }
-        else
-        {
-            textComponent.text = "1";
-            isProcessed = false;
-        }
-        
+        PrintNumber("1");
     }
 
     public void Button2()
     {
-        if (textComponent.text != "0" && !isProcessed)
-        {
-            textComponent.text += "2";
-        }
-        else
-        {
-            textComponent.text = "2";
-            isProcessed = false;
-        }
-
+        PrintNumber("2");
     }
 
     public void Button3()
     {
-        if (textComponent.text != "0" && !isProcessed)
-        {
-            textComponent.text += "3";
-        }
-        else
-        {
-            textComponent.text = "3";
-            isProcessed = false;
-        }
-
+        PrintNumber("3");
     }
 
     public void Button4()
     {
-        if (textComponent.text != "0" && !isProcessed)
-        {
-            textComponent.text += "4";
-        }
-        else
-        {
-            textComponent.text = "4";
-            isProcessed = false;
-        }
-
+        PrintNumber("4");
     }
 
     public void Button5()
     {
-        if (textComponent.text != "0" && !isProcessed)
-        {
-            textComponent.text += "5";
-        }
-        else
-        {
-            textComponent.text = "5";
-            isProcessed = false;
-        }
-
+        PrintNumber("5");
     }
 
     public void Button6()
     {
-        if (textComponent.text != "0" && !isProcessed)
-        {
-            textComponent.text += "6";
-        }
-        else
-        {
-            textComponent.text = "6";
-            isProcessed = false;
-        }
-
+        PrintNumber("6");
     }
 
     public void Button7()
     {
-        if (textComponent.text != "0" && !isProcessed)
-        {
-            textComponent.text += "7";
-        }
-        else
-        {
-            textComponent.text = "7";
-            isProcessed = false;
-        }
-
+        PrintNumber("7");
     }
 
     public void Button8()
     {
-        if (textComponent.text != "0" && !isProcessed)
-        {
-            textComponent.text += "8";
-        }
-        else
-        {
-            textComponent.text = "8";
-            isProcessed = false;
-        }
-
+        PrintNumber("8");
     }
 
     public void Button9()
     {
-        if (textComponent.text != "0" && !isProcessed)
-        {
-            textComponent.text += "9";
-        }
-        else
-        {
-            textComponent.text = "9";
-            isProcessed = false;
-        }
-
+        PrintNumber("9");
     }
 }
