@@ -14,6 +14,8 @@ public class Calculator : MonoBehaviour
     [SerializeField] private bool isProcessed = false;
     private bool getPercentage = false;
 
+    private const int textMaxLength = 16;
+
     private void Awake()
     {
         textComponent = textGameObject.GetComponent<Text>();
@@ -22,6 +24,19 @@ public class Calculator : MonoBehaviour
     private void Start()
     {
         textComponent.text = num1.ToString();
+    }
+
+    private void Update()
+    {
+        if (textComponent.text.Length > textMaxLength)
+        {
+            Backspace();
+        }
+    }
+
+    private void Backspace()
+    {
+        textComponent.text = textComponent.text.Substring(0, textComponent.text.Length - 1);
     }
 
     // Button Methods Section
@@ -33,6 +48,11 @@ public class Calculator : MonoBehaviour
         isProcessed = false;
         getPercentage = false;
         operationSign = 'n';
+    }
+
+    public void ButtonCE()
+    {
+        textComponent.text = "0";
     }
 
     //Basic Operations
@@ -92,7 +112,7 @@ public class Calculator : MonoBehaviour
 
     private void BasicOperation(char sign)
     {
-        if (operationSign == 'n')
+        if (operationSign == 'n' || operationSign != sign)
         {
             GetFirstNumber();
             operationSign = sign;
@@ -196,7 +216,7 @@ public class Calculator : MonoBehaviour
 
         if (textComponent.text.Length > 1)
         {
-            textComponent.text = textComponent.text.Substring(0, textComponent.text.Length - 1);
+            Backspace();
             isProcessed = false;
         }
         else
