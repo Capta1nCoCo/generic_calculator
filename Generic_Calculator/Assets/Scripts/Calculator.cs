@@ -212,7 +212,7 @@ public class Calculator : MonoBehaviour
 
     public void ButtonBackspace()
     {
-        if (textComponent.text == "0") { return; }
+        if (textComponent.text == "0" || isProcessed) { return; }
 
         if (textComponent.text.Length > 1)
         {
