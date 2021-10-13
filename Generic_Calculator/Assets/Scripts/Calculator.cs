@@ -5,20 +5,22 @@ using UnityEngine.UI;
 
 public class Calculator : MonoBehaviour
 {
-    [SerializeField] GameObject textGameObject;
-    Text textComponent;
+    [SerializeField] private GameObject textPortrait;
+    [SerializeField] private GameObject textLandscape;
+    private Text textComponent;
 
     [SerializeField] private float num1 = 0;
     [SerializeField] private float num2 = 0;
     [SerializeField] private char operationSign = 'n';
     [SerializeField] private bool isProcessed = false;
     private bool getPercentage = false;
+    private string cacheText = "0";
 
     private const int textMaxLength = 16;
 
     private void Awake()
     {
-        textComponent = textGameObject.GetComponent<Text>();
+        textComponent = textPortrait.GetComponent<Text>();
     }
 
     private void Start()
@@ -27,12 +29,30 @@ public class Calculator : MonoBehaviour
     }
 
     private void Update()
-    {
+    {        
         if (textComponent.text.Length > textMaxLength)
         {
             Backspace();
         }
     }
+
+    public void CacheCurrentText()
+    {
+        cacheText = textComponent.text;
+    }
+
+    public void AccessTextLandscape()
+    {
+        textComponent = textLandscape.GetComponent<Text>();
+        textComponent.text = cacheText;
+    }   
+
+    public void AccessTextPortrait()
+    {
+        textComponent = textPortrait.GetComponent<Text>();
+        textComponent.text = cacheText;
+    }
+    
 
     private void Backspace()
     {
