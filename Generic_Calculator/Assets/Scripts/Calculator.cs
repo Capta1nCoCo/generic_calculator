@@ -8,11 +8,11 @@ public class Calculator : MonoBehaviour
     [SerializeField] GameObject textGameObject;
     Text textComponent;
 
-    [SerializeField] float num1 = 0;
-    [SerializeField] float num2 = 0;
-    [SerializeField] char operationSign = 'n';
-    [SerializeField] bool isProcessed = false;
-    bool getPercentage = false;
+    [SerializeField] private float num1 = 0;
+    [SerializeField] private float num2 = 0;
+    [SerializeField] private char operationSign = 'n';
+    [SerializeField] private bool isProcessed = false;
+    private bool getPercentage = false;
 
     private void Awake()
     {
@@ -36,6 +36,11 @@ public class Calculator : MonoBehaviour
     }
 
     //Basic Operations
+    private void GetFirstNumber()
+    {
+        num1 = float.Parse(textComponent.text);
+    }
+
     private void GetSecondNumber()
     {
         if (!getPercentage)
@@ -49,6 +54,15 @@ public class Calculator : MonoBehaviour
         }
     }
 
+    private void Calculate(float operation)
+    {
+        num1 = operation;
+        num2 = 0;
+        textComponent.text = num1.ToString();
+        isProcessed = true;
+        operationSign = 'n';
+    }
+
     public void ButtonEquals()
     {
         GetSecondNumber();
@@ -59,35 +73,19 @@ public class Calculator : MonoBehaviour
                 break;
 
             case '+':
-                num1 += num2;
-                num2 = 0;
-                textComponent.text = num1.ToString();
-                isProcessed = true;
-                operationSign = 'n';
+                Calculate(num1 + num2);
                 break;
 
             case '-':
-                num1 -= num2;
-                num2 = 0;
-                textComponent.text = num1.ToString();
-                isProcessed = true;
-                operationSign = 'n';
+                Calculate(num1 - num2);
                 break;
 
             case '*':
-                num1 *= num2;
-                num2 = 0;
-                textComponent.text = num1.ToString();
-                isProcessed = true;
-                operationSign = 'n';
+                Calculate(num1 * num2);
                 break;
 
             case '/':
-                num1 /= num2;
-                num2 = 0;
-                textComponent.text = num1.ToString();
-                isProcessed = true;
-                operationSign = 'n';
+                Calculate(num1 / num2);
                 break;
         }
     }
@@ -96,7 +94,7 @@ public class Calculator : MonoBehaviour
     {
         if (operationSign == 'n')
         {
-            num1 = float.Parse(textComponent.text);
+            GetFirstNumber();
             operationSign = sign;
             isProcessed = true;
         }
@@ -128,28 +126,29 @@ public class Calculator : MonoBehaviour
     }
 
     //Special Operations   
-    public void ButtonX2()
+    private void SpecialOperation(float operation)
     {
-        num1 = float.Parse(textComponent.text);
-        num1 *= num1;
+        num1 = operation;
         textComponent.text = num1.ToString();
         isProcessed = true;
+    }
+
+    public void ButtonX2()
+    {
+        GetFirstNumber();
+        SpecialOperation(num1 * num1);
     }
 
     public void ButtonSqrt()
     {
-        num1 = float.Parse(textComponent.text);
-        num1 = Mathf.Sqrt(num1);
-        textComponent.text = num1.ToString();
-        isProcessed = true;
+        GetFirstNumber();
+        SpecialOperation(Mathf.Sqrt(num1));
     }
 
     public void ButtonReverseNumber()
     {
-        num1 = float.Parse(textComponent.text);
-        num1 = 1 / num1;
-        textComponent.text = num1.ToString();
-        isProcessed = true;
+        GetFirstNumber();
+        SpecialOperation(1 / num1);
     }
 
     public void ButtonPercentage()
